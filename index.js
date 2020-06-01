@@ -1,7 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+//bring all routes
+const auth = require('./routes/api/auth');
+const profile = require('./routes/api/profile');
+const questions = require('./routes/api/questions')
 
 const app = express();
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
 //MongoDB configuration 
 const db = require('./setup/myurl').mongoURL 
@@ -20,6 +28,12 @@ mongoose.connect(db,{useNewUrlParser: true, useUnifiedTopology: true  },)
 app.get('/',(req,res)=>{
     res.send('hello big stsck')
 });
+
+app.use('/api/auth',auth);
+app.use('/api/questions',questions);
+app.use('/api/profile',profile)
+
+
 
 const port = process.env.PORT || 4000;
 
