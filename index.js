@@ -12,7 +12,9 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //MongoDB configuration 
-const db = require('./setup/myurl').mongoURL 
+const db = require('./setup/myurl').mongoURL;
+// console.log(db);
+
 
 //Attemt to conncet db
 mongoose.connect(db,{useNewUrlParser: true, useUnifiedTopology: true  },)
@@ -35,7 +37,7 @@ app.use('/api/profile',profile)
 
 
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 app.listen(port,(req,res)=>{
     console.log('your server is running');
