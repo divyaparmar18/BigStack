@@ -185,7 +185,7 @@ router.delete('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
 
 //@type  -  post
 //@route  -  /api/profile/mywork
-//@desc  -  route for adding work profile of a person
+//@desc  -  route for adding workrole profile of a person
 //@access  -  PRIVATE
 router.post('/workrole',passport.authenticate('jwt',{session:false}),(req,res)=>{
     Profile.findOne({user: req.user.id})
@@ -205,6 +205,36 @@ router.post('/workrole',passport.authenticate('jwt',{session:false}),(req,res)=>
         // profile.workrole.push(newWrok);
         profile.workrole.unshift(newWrok)
         profile.save()
+        .then((profile)=>{
+            res.json(profile)
+        })
+        .catch((err)=>{
+            console.log(err);
+            
+        })
+    })
+    .catch((err)=>{
+        console.log(err);
+        
+    })
+})
+
+//@type  -  DELETE
+//@route  -  /api/profile/mywork/:w_id
+//@desc  -  route for deelting workrole profile of a person
+//@access  -  PRIVATE
+router.delete('/workrole/:w_id',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    Profile.findOne({user:req.user.id})
+    .then((profile)=>{
+        if(!profile){
+            res.json(404).json({usrError : "user not found"})
+        }
+        const removeThis = profile.workrole
+        .map(item=>item.id)
+        .indexOf(req.params.w_id);
+        profile.workrole.splice(removeThis,1);
+        profile
+        .save()
         .then((profile)=>{
             res.json(profile)
         })
