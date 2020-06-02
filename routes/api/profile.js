@@ -175,7 +175,6 @@ router.delete('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
             })
         }
         
-        
     })
     .catch((err)=>{
         console.log("user not found for dleeting "  + err);
@@ -183,5 +182,43 @@ router.delete('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
     })
     
 })
+
+//@type  -  post
+//@route  -  /api/profile/mywork
+//@desc  -  route for adding work profile of a person
+//@access  -  PRIVATE
+router.post('/workrole',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    Profile.findOne({user: req.user.id})
+    .then((profile)=>{
+        if(!profile){
+            res.status(404).json({userError: " usernot found"})
+        }
+        const newWrok = {
+            role : req.body.role,
+            company : req.body.company,
+            country : req.body.country,
+            from : req.body.from,
+            to : req.body.to,
+            current : req.body.current,
+            details : req.body.details
+        };
+        // profile.workrole.push(newWrok);
+        profile.workrole.unshift(newWrok)
+        profile.save()
+        .then((profile)=>{
+            res.json(profile)
+        })
+        .catch((err)=>{
+            console.log(err);
+            
+        })
+    })
+    .catch((err)=>{
+        console.log(err);
+        
+    })
+})
+
+
 
 module.exports = router;
