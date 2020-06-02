@@ -150,4 +150,38 @@ router.get('/find/everyone',(req,res)=>{
         
     })
 })
+//@type  -  DELETE
+//@route  -  /api/profile
+//@desc  -  route for deleting user based on ID
+//@access  -  PRIVATE
+router.delete('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    Profile.findOne({user : req.user.id})
+    .then((profile)=>{
+        if(profile){
+            Profile.findOneAndRemove({user : req.user.id})
+            .then(()=>{
+                Person.findOneAndRemove({_id : req.user.id})
+                .then(()=>{
+                    res.json({success:"delete was succes"})
+                })
+                .catch((err)=>{
+                    console.log(err);
+                    
+                })
+            })
+            .catch((err)=>{
+                console.log(err);
+                
+            })
+        }
+        
+        
+    })
+    .catch((err)=>{
+        console.log("user not found for dleeting "  + err);
+        
+    })
+    
+})
+
 module.exports = router;
