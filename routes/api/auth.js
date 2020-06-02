@@ -5,7 +5,6 @@ const jsonjwt = require('jsonwebtoken');
 const passport = require('passport');
 const key = require('../../setup/myurl')
  
-
 //@type  -  GET
 //@route  -  /api/auth
 //@desc  -  just for testing
@@ -40,7 +39,7 @@ router.post('/register',(req,res)=>{
                 //Encrypt password using bcrypt
                 bcrypt.genSalt(5,(err,salt)=>{
                     bcrypt.hash(newPerson.password,salt,(err,hash)=>{
-                        if(err) console.log(err);
+                        if(err) throw (err);
                         newPerson.password = hash;
                         newPerson
                         .save()
@@ -79,7 +78,29 @@ router.post('/login',(req,res)=>{
          bcrypt.compare(password,person.password)
             .then((isCorrect)=>{
              if(isCorrect){
-                 res.json({sucess : 'login successfully'})
+                //  res.json({sucess : 'login successfully'})
+                //use payload and create token for user
+                const payload = {
+                    id : person.id,
+                    name : person.name,
+                    email : person.email
+                };
+                jsonjwt.sign(
+                    payload,
+                    key.secret,
+                    {expiresIn : 3600},
+                    (err,token)=>{
+                        if(err) throw (err);
+                        res.json({
+                            success : true,
+                            token : "Bearer " + token,
+                            
+
+                        })
+                        
+                    }
+                )
+
              }
              else{
                  res.status(400).json({passwprdError:'passwprd is not correct'})
