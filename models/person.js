@@ -28,3 +28,4 @@ const PersonSchema = new Schema({
     }
 });
 module.exports = Person = mongoose.model("myperson",PersonSchema)
+
