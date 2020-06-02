@@ -119,4 +119,18 @@ else{
     }
 });
 
+//@type  -  GET
+//@route  -  /api/auth/profile
+//@desc  -  route for user prolife
+//@access  -  PRIVATE
+router.get('/profile',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    res.json({
+        id : req.user.id,
+        name : req.user.name,
+        email : req.user.email,
+        profilepic : req.user.profilepic
+    })
+    
+})
+
 module.exports = router;

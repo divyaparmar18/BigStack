@@ -21,6 +21,7 @@ const personSchema = new Schema({
         type:String,
         default : "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ2wAWm_axMvDffaY9jnCQk0WEpVYaJCleUT63zTzzcj2VCWGL8&usqp=CAU"
     },
+
     date : {
         type : Date,
         default : Date.now
