@@ -114,6 +114,25 @@ router.get('/:username',(req,res)=>{
     })
 })
 
+//@type  -  GET
+//@route  -  /api/profile/:username
+//@desc  -  route for getting user profile based on ID
+//@access  -  PUBLIC
+router.get('/id/:id',(req,res)=>{
+    Profile.findOne({_id:req.params.id})
+    .populate('user',['name','profilepic'])
+    .then((profile)=>{
+        if(!profile){
+            return res.status(404).json({idError : "user not found"})
+        }
+        res.json(profile)
+    })
+    .catch((err)=>{
+        console.log("error in fetching username " + err);
+        
+    })
+})
+
 
 
 
