@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 const Person = require('../../models/person');
-const Profile = require('../../models/Profile')
+const Profile = require('../../models/Profile');
 
 //@type  -  GET
 //@route  -  /api/profile
@@ -215,7 +215,6 @@ router.post('/workrole',passport.authenticate('jwt',{session:false}),(req,res)=>
     })
     .catch((err)=>{
         console.log(err);
-        
     })
 })
 
@@ -240,12 +239,10 @@ router.delete('/workrole/:w_id',passport.authenticate('jwt',{session:false}),(re
         })
         .catch((err)=>{
             console.log(err);
-            
         })
     })
     .catch((err)=>{
         console.log(err);
-        
     })
 })
 
